@@ -123,7 +123,15 @@ class NFXListCell: UITableViewCell
     
     func configForObject(_ obj: NFXHTTPModel)
     {
-        setURL(obj.requestURL ?? "-")
+        var graphqlOperation = ""
+        
+        if let graphqlQueryClassification = obj.requestHeaders?["x-exp-rvn-query-classification"] as? String {
+            graphqlOperation = " - " + graphqlQueryClassification
+        }
+        
+        let requestURL = obj.requestURL ?? "-"
+        
+        setURL(requestURL + graphqlOperation )
         setStatus(obj.responseStatus ?? 999)
         setTimeInterval(obj.timeInterval ?? 999)
         setRequestTime(obj.requestTime ?? "-")
